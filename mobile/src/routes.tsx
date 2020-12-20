@@ -7,10 +7,10 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 
 const Tab = createMaterialBottomTabNavigator();
 
-import homeIcon from './icons/Home.png';
-import searchIcon from './icons/Search.png';
-import saveIcon from './icons/Save.png';
-import galleryIcon from './icons/Gallery.png';
+import homeIcon from './icons/regular/Home.png';
+import searchIcon from './icons/regular/Search.png';
+import saveIcon from './icons/regular/Save.png';
+import galleryIcon from './icons/regular/Gallery.png';
 
 import Home from './pages/Home';
 import Search from './pages/Search';
