@@ -30,48 +30,48 @@ export default function Home() {
     <View style={styles.home}>
       <ImageBackground resizeMode='cover' source={starsImg} style={styles.full}>     
         <ScrollView style={styles.full}>
-        <View style={styles.content}>
-          <Header username='Alisson Oliveira' back={false} />
-          <View style={styles.search}>
-            <Image source={searchIcon} width={16} height={16} style={styles.iconSearch}/>
-            <TextInput 
-              placeholder='Procure planetas, asteroides, estrelas...'
-              placeholderTextColor='#FFFFFF'
-              style={styles.inputText}              
-            />
-          </View>
-          <View>
-            <Text style={styles.title}>Categorias</Text>
-            <View style={styles.category}>
-              {
-                categories.map((category, index) => (
-                  <Category 
-                    key={index}
-                    colors={{
-                      first: category.colors.first, 
-                      second: category.colors.second,
-                    }}
-                    index={index}
-                    title={category.title}
-                  />
-                ))
-              }
+          <View style={styles.content}>
+            <Header username='Alisson Oliveira' back={false} />
+            <View style={styles.search}>
+              <Image source={searchIcon} width={16} height={16} style={styles.iconSearch}/>
+              <TextInput 
+                placeholder='Procure planetas, asteroides, estrelas...'
+                placeholderTextColor='#FFFFFF'
+                style={styles.inputText}              
+              />
             </View>
-          </View>
-          <View style={styles.planets}>
-            <Text style={styles.title}>Planetas</Text>
-            <ScrollView horizontal>
-              { 
-                planets.map((planet, index) => (
-                  <Planets
-                    key={index}
-                    index={index}
-                    name={planet.name}
-                  />
-                ))
-              }
-            </ScrollView>
-          </View>
+            <View>
+              <Text style={styles.title}>Categorias</Text>
+              <View style={styles.category}>
+                {
+                  categories.map((category, index) => (
+                    <Category 
+                      key={index}
+                      colors={{
+                        first: category.colors.first, 
+                        second: category.colors.second,
+                      }}
+                      index={index}
+                      title={category.title}
+                    />
+                  ))
+                }
+              </View>
+            </View>
+            <View style={styles.planets}>
+              <Text style={styles.title}>Planetas</Text>
+              <ScrollView horizontal>
+                { 
+                  planets.map((planet, index) => (
+                    <Planets
+                      key={index}
+                      index={index}
+                      name={planet.name}
+                    />
+                  ))
+                }
+              </ScrollView>
+            </View>
           </View>
         </ScrollView>
       </ImageBackground>

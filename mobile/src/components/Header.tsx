@@ -5,7 +5,7 @@ import backIcon from '../icons/regular/Back.png';
 import settingsIcon from '../icons/regular/Settings.png';
 
 interface HeaderProps {
-  username: string,
+  username?: string,
   back: boolean,
 };
 
