@@ -1,30 +1,41 @@
 import React, { useEffect, useState } from 'react';
-
 import { 
   View, Text, StyleSheet, 
   Dimensions, Image, ImageBackground, 
   TextInput, ScrollView } from 'react-native';
-
 import Header from '../components/Header';
 import Category from '../components/Category';
 import Planets from '../components/Planets';
-
 import searchIcon from '../icons/regular/Search.png';
-
-import starsImg from '../images/Stars.png';
-
-import { HomeData, CategoriesParams, PlanetsParams } from '../database/data';
+import starsImg from '../../assets/images/Stars.png';
+import { dataset, CategoriesParams } from '../database/data';
+import { RectButton } from 'react-native-gesture-handler';
+import { useNavigation } from '@react-navigation/native';
 
 export default function Home() {
-  const [planets, setPlanets] = useState<PlanetsParams[]>([]);
+  const [planets, setPlanets] = useState<string[]>([]);
   const [categories, setCategories] = useState<CategoriesParams[]>([]);
+  const [name, setName] = useState('');
+  const navigation = useNavigation();
 
   useEffect(() => {
-    if (HomeData) {
-      setPlanets(HomeData.planets);
-      setCategories(HomeData.categories);
+    if (dataset) {
+      const names: string[] = []; 
+
+      dataset.planets.map(planet => {
+        names.push(planet.name);
+      });
+
+      setPlanets(names);
+      setCategories(dataset.categories);
     }
   }, []);
+
+  function handleToSearch(name: string) {
+    navigation.navigate('Search', { name });
+    
+    setName('');
+  };
 
   return (
     <View style={styles.home}>
@@ -32,14 +43,18 @@ export default function Home() {
         <ScrollView style={styles.full}>
           <View style={styles.content}>
             <Header username='Alisson Oliveira' back={false} />
-            <View style={styles.search}>
+            <RectButton style={styles.search} onPress={
+                () => handleToSearch(name) 
+              }>
               <Image source={searchIcon} width={16} height={16} style={styles.iconSearch}/>
               <TextInput 
+                value={name}
+                onChangeText={setName}
                 placeholder='Procure planetas, asteroides, estrelas...'
                 placeholderTextColor='#FFFFFF'
                 style={styles.inputText}              
               />
-            </View>
+            </RectButton>
             <View>
               <Text style={styles.title}>Categorias</Text>
               <View style={styles.category}>
@@ -66,7 +81,7 @@ export default function Home() {
                     <Planets
                       key={index}
                       index={index}
-                      name={planet.name}
+                      name={planet}
                     />
                   ))
                 }
