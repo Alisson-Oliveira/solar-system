@@ -13,7 +13,7 @@ import saveIcon from './icons/regular/Save.png';
 import galleryIcon from './icons/regular/Gallery.png';
 
 import Home from './pages/Home';
-import Search from './pages/Search';
+import RouteSearch from './routes/routeSearch';
 import Save from './pages/Save';
 import Gallery from './pages/Gallery';
 
@@ -21,8 +21,10 @@ export default function Routes() {
   return (
     <NavigationContainer>
       <Tab.Navigator 
+        initialRouteName="Home"
         activeColor="#FFFFFF" 
         barStyle={{ 
+          marginTop: -16,
           padding: 8,
           borderTopStartRadius: 16,
           borderTopEndRadius: 16,
@@ -40,8 +42,8 @@ export default function Routes() {
           }}
         />
         <Tab.Screen 
-          name="Search" 
-          component={Search}
+          name="RouteSearch" 
+          component={RouteSearch}
           options={{
             tabBarLabel: 'Pesquisar',
             tabBarIcon: () => (
