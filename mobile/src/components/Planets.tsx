@@ -1,19 +1,19 @@
 import React from 'react';
 
-import { View, Text, Image, StyleSheet, ImageBackground } from 'react-native';
+import { View, Text, Image, StyleSheet } from 'react-native';
 
 import forwardIcon from '../icons/regular/Forward.png';
 
-import sunImg from '../images/Sun.png';
-import mercuryImg from '../images/Mercury.png';
-import venusImg from '../images/Venus.png';
-import earthImg from '../images/Earth.png';
-import marsImg from '../images/Mars.png';
-import jupiterImg from '../images/Jupiter.png';
-import saturnImg from '../images/Saturn.png';
-import uranusImg from '../images/Uranus.png';
-import neptuneImg from '../images/Neptune.png';
-import plutoImg from '../images/Pluto.png';
+import sunImg from '../../assets/images/Sun.png';
+import mercuryImg from '../../assets/images/Mercury.png';
+import venusImg from '../../assets/images/Venus.png';
+import earthImg from '../../assets/images/Earth.png';
+import marsImg from '../../assets/images/Mars.png';
+import jupiterImg from '../../assets/images/Jupiter.png';
+import saturnImg from '../../assets/images/Saturn.png';
+import uranusImg from '../../assets/images/Uranus.png';
+import neptuneImg from '../../assets/images/Neptune.png';
+import plutoImg from '../../assets/images/Pluto.png';
 
 interface PlanetsProps {
   index: number,

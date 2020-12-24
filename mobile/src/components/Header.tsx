@@ -1,5 +1,7 @@
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
+import { RectButton } from 'react-native-gesture-handler';
 
 import backIcon from '../icons/regular/Back.png';
 import settingsIcon from '../icons/regular/Settings.png';
@@ -10,6 +12,8 @@ interface HeaderProps {
 };
 
 export default function Header({ username, back }: HeaderProps) {
+  const { goBack } = useNavigation();
+
   return (
     <View style={styles.header}>
       <View style={styles.container}>
@@ -20,7 +24,9 @@ export default function Header({ username, back }: HeaderProps) {
               <Text style={styles.username}>{username}</Text>
             </View>
           ) : (
-            <Image source={backIcon} width={24} height={24}/>
+            <RectButton onPress={goBack}>
+              <Image source={backIcon} width={24} height={24}/>
+            </RectButton>
           )
         }
         <Image source={settingsIcon} width={24} height={24}/>

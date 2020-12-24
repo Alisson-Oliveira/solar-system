@@ -1,75 +1,88 @@
 import React, { useState } from 'react';
-
 import { View, Text, Image, StyleSheet } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
-import { convertNameToId } from '../utils/utils';
+import { useNavigation } from '@react-navigation/native';
 
 import forwardIcon from '../icons/regular/Forward-2.png';
 import saveIcon from '../icons/regular/Save.png';
 import savedIcon from '../icons/solid/Saved.png';
 
-import sunImg from '../images/Sun.png';
-import mercuryImg from '../images/Mercury.png';
-import venusImg from '../images/Venus.png';
-import earthImg from '../images/Earth.png';
-import marsImg from '../images/Mars.png';
-import jupiterImg from '../images/Jupiter.png';
-import saturnImg from '../images/Saturn.png';
-import uranusImg from '../images/Uranus.png';
-import neptuneImg from '../images/Neptune.png';
-import plutoImg from '../images/Pluto.png';
+import sunImg from '../../assets/images/Sun.png'; 
+import mercuryImg from '../../assets/images/Mercury.png'; 
+import venusImg from '../../assets/images/Venus.png'; 
+import earthImg from '../../assets/images/Earth.png'; 
+import marsImg from '../../assets/images/Mars.png'; 
+import jupiterImg from '../../assets/images/Jupiter.png'; 
+import saturnImg from '../../assets/images/Saturn.png'; 
+import uranusImg from '../../assets/images/Uranus.png'; 
+import neptuneImg from '../../assets/images/Neptune.png'; 
+import plutoImg from '../../assets/images/Pluto.png'; 
 
 interface SearchProps {
+  id: number,
   name: string,
-  text: string,
+  image: string,
+  shortText: string, 
 };
 
-export default function Result({ name, text }: SearchProps) {
+export default function Result({ id, name, image, shortText }: SearchProps) {
   const [saved, setSaved] = useState(false);
-  const data = [
-    {image: sunImg, text: 'O Sol é a estrela central do Sistema Solar. Todos os outros corpos do Sistema Solar...'},
-    {image: mercuryImg, text: 'Mercúrio é o menor e mais interno planeta do Sistema Solar, orbitando o Sol a cada 87,969 dias terrestres...'},
-    {image: venusImg, text: 'Vénus ou Vênus é o segundo planeta do Sistema Solar em ordem de distância a partir do Sol...'},
-    {image: earthImg, text: 'A Terra é o terceiro planeta mais próximo do Sol, o mais denso e o quinto maior dos oito planetas do Sistema Solar...'},
-    {image: marsImg, text: 'Marte é o quarto planeta a partir do Sol, o segundo menor do Sistema Solar. Batizado em homenagem ao deus romano...'},
-    {image: jupiterImg, text: 'Júpiter é o maior planeta do Sistema Solar, tanto em diâmetro quanto em massa, e é o quinto mais próximo do Sol...'},
-    {image: saturnImg, text: 'Saturno é o sexto planeta a partir do Sol e o segundo maior do Sistema Solar atrás de Júpiter...'},
-    {image: uranusImg, text: 'Urano é o sétimo planeta a partir do Sol, o terceiro maior e o quarto mais massivo dos oito planetas do Sistema Solar...'},
-    {image: neptuneImg, text: 'Netuno ou Neptuno é o oitavo planeta do Sistema Solar, o último a partir do Sol desde a reclassificação de Plutão...'},
-    {image: plutoImg, text: 'Plutão, formalmente designado 134340 Plutão, é um planeta anão do Sistema Solar e o nono maior e décimo mais massivo...'}
-  ];
+  const { navigate } = useNavigation();
 
-  function checkIdorName(value: any): number {
-    const isNumber = (val: number) => {
-      return typeof val === "number";
+  function getImage(image: string) {
+    switch (image) {
+      case 'Sun':
+        return sunImg;
+      case 'Mercury':
+        return mercuryImg;
+      case 'Venus':
+        return venusImg;
+      case 'Earth':
+        return earthImg;
+      case 'Mars':
+        return marsImg;
+      case 'Jupiter':
+        return jupiterImg;
+      case 'Saturn':
+        return saturnImg;
+      case 'Uranus':
+        return uranusImg;
+      case 'Neptune':
+        return neptuneImg;
+      case 'Pluto':
+        return plutoImg;
+      default:
+        break;
     }
+  };
 
-    return isNumber(value) ? value : convertNameToId(value);
-  }
+  function handleToDetails(id: number) {
+    return navigate('Details', { id });
+  };
 
   return (
     <View style={styles.result}>
-      <Image source={data[checkIdorName(name)].image} style={styles.lengthImage} />
+      <Image source={getImage(image)} style={styles.lengthImage} />
       <View style={styles.content}>
         <View style={styles.nameSaved}>
-          <Text style={styles.nameText}>{name}</Text>
+          <Text style={styles.nameText}>{name}</Text> 
           {
             saved ? (
-              <RectButton onPress={() => setSaved(!saved)}>
+              <RectButton onPress={() => setSaved(false)}>
                 <Image source={savedIcon} style={styles.lengthSave} />
               </RectButton>
             ) : (
-              <RectButton onPress={() => setSaved(!saved)}>
+              <RectButton onPress={() => setSaved(true)}>
                 <Image source={saveIcon} style={styles.lengthSave} />
               </RectButton>
             ) 
           }         
         </View>
-        <Text style={styles.subTitle}>{data[checkIdorName(name)].text}</Text>
-        <View style={styles.continueReading}>
+        <Text style={styles.subTitle}>{shortText}</Text>
+        <RectButton onPress={() => handleToDetails(id)} style={styles.continueReading}>
           <Text style={styles.continueReadingText}>Continuar lendo</Text>
           <Image source={forwardIcon} style={styles.lengthContinueReading} />
-        </View>
+        </RectButton>
       </View>
     </View>
   );
