@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, 
   ImageBackground, ScrollView, Dimensions } from 'react-native';
 import Header from '../components/Header';
-import starsImg from '../../assets/images/Stars.png';
+import starsImg from '../images/Stars.png';
 
 export default function Save() {
   return (
