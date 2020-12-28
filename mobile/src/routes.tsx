@@ -1,77 +1,48 @@
-import React from 'react';
-
-import { Image } from 'react-native';
-
+import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+import { createStackNavigator } from '@react-navigation/stack';
 
-const Tab = createMaterialBottomTabNavigator();
+const Stack = createStackNavigator();
 
-import homeIcon from './icons/regular/Home.png';
-import searchIcon from './icons/regular/Search.png';
-import saveIcon from './icons/regular/Save.png';
-import galleryIcon from './icons/regular/Gallery.png';
+import Loading from './components/Loading';
 
-import Home from './pages/Home';
-import RouteSearch from './routes/routeSearch';
-import Save from './pages/Save';
-import Gallery from './pages/Gallery';
+import SignIn from './routes/SignIn';
+import HomeScreen from './routes/HomeScreen';
+
+import { IS_SIGNOUT } from './config/settings';
 
 export default function Routes() {
+  const [active, setActive] = useState<boolean>(true);
+  const [isLoadnig, setIsLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+
+    (async function isActive() {
+      const response = await IS_SIGNOUT();
+      if (response !== undefined) {
+        setActive(response);
+      };
+    })();
+  }, []);
+
+  if (isLoadnig && active) {
+    return ( <Loading /> );
+  };
+
   return (
     <NavigationContainer>
-      <Tab.Navigator 
-        initialRouteName="Home"
-        activeColor="#FFFFFF" 
-        barStyle={{ 
-          marginTop: -16,
-          padding: 8,
-          borderTopStartRadius: 16,
-          borderTopEndRadius: 16,
-          backgroundColor: '#151515',
-        }}
-      >
-        <Tab.Screen 
-          name="Home" 
-          component={Home}
-          options={{
-            tabBarLabel: 'Inicio',
-            tabBarIcon: () => (
-              <Image source={homeIcon} height={26} width={26} />
-            ),
-          }}
-        />
-        <Tab.Screen 
-          name="RouteSearch" 
-          component={RouteSearch}
-          options={{
-            tabBarLabel: 'Pesquisar',
-            tabBarIcon: () => (
-              <Image source={searchIcon} height={26} width={26} />
-            ),
-          }} 
-        />
-        <Tab.Screen 
-          name="Save" 
-          component={Save}
-          options={{
-            tabBarLabel: 'Salvos',
-            tabBarIcon: () => (
-              <Image source={saveIcon} height={26} width={26} />
-            ),
-          }}
-        />
-        <Tab.Screen 
-          name="Gallery" 
-          component={Gallery}
-          options={{
-            tabBarLabel: 'Galeria',
-            tabBarIcon: () => (
-              <Image source={galleryIcon} height={26} width={26} />
-            ),
-          }}
-        />
-      </Tab.Navigator>
+      <Stack.Navigator screenOptions={{ headerShown: false }} >
+        {
+          active ? (
+            <Stack.Screen name='SignIn' component={SignIn} />
+          ) : (
+            <Stack.Screen name='HomeScreen' component={HomeScreen} />
+          )
+        }
+      </Stack.Navigator>
     </NavigationContainer>
   );
 }
