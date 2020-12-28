@@ -1,22 +1,19 @@
 import React from 'react';
-
 import { createStackNavigator } from '@react-navigation/stack';
 
-const { Navigator, Screen } = createStackNavigator();
+const Stack = createStackNavigator();
 
-import Search from '../pages/search/Search';
-import Details from '../pages/search/Details';
+import Search from '../pages/Search';
+import Details from '../pages/Details';
 
-export default function routeSearch() {
+export default function RouteSearch() {
   return (
-    <Navigator
+    <Stack.Navigator
       initialRouteName='Search'
-      screenOptions={{ 
-        headerShown: false,
-      }}
+      screenOptions={{ headerShown: false }}
     >
-      <Screen name="Search" component={Search} />
-      <Screen name="Details" component={Details} />
-    </Navigator>
+      <Stack.Screen name="Search" component={Search} />
+      <Stack.Screen name="Details" component={Details} />
+    </Stack.Navigator>
   );
 }

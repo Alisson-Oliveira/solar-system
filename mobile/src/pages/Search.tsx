@@ -2,16 +2,16 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, 
   ImageBackground, ScrollView, Dimensions, 
   TextInput, Image } from 'react-native';
-import { useFocusEffect, useRoute } from '@react-navigation/native';
+import { useFocusEffect, useIsFocused, useRoute } from '@react-navigation/native';
 import { Feather } from '@expo/vector-icons'; 
-import { checkName, convertNameToId } from '../../utils/utils';
+import { checkName, convertNameToId } from '../utils/utils';
 
-import Header from '../../components/Header';
-import Result from '../../components/Result';
-import searchIcon from '../../icons/regular/Search.png';
-import starsImg from '../../../assets/images/Stars.png';
+import Header from '../components/Header';
+import Result from '../components/Result';
+import searchIcon from '../icons/regular/Search.png';
+import starsImg from '../images/Stars.png';
 
-import { dataset, PlanetParams } from '../../database/data';
+import { dataset, PlanetParams } from '../database/data';
 
 interface SearchParams {
   name: string,
@@ -21,7 +21,7 @@ interface SearchParams {
 export default function Search() {
   const [value, setValue] = useState('');
   const [planet, setPlanet] = useState<PlanetParams[]>(dataset.planets);
-  
+  const focused = useIsFocused();
   const route = useRoute();
   const params = route.params as SearchParams;
 
@@ -56,7 +56,7 @@ export default function Search() {
             { 
               checkName(value) !== '' ? (
                 <Result 
-                  id={planet[convertNameToId(value)].id}
+                  index={planet[convertNameToId(value)].id}
                   name={planet[convertNameToId(value)].name}
                   image={planet[convertNameToId(value)].image}
                   shortText={planet[convertNameToId(value)].shortText} 
@@ -78,21 +78,23 @@ export default function Search() {
               }
             </View> 
             {
-              convertNameToId(value) !== 9 ? (
-                <Result 
-                  id={planet[convertNameToId(value) + 1].id}  
-                  name={planet[convertNameToId(value) + 1].name}
-                  image={planet[convertNameToId(value) + 1].image}
-                  shortText={planet[convertNameToId(value) + 1].shortText}  
-                />
-              ) : (
-                <Result  
-                  id={planet[3].id}  
-                  name={planet[3].name}
-                  image={planet[3].image}
-                  shortText={planet[3].shortText}  
-                />
-              )
+              focused && (
+                convertNameToId(value) !== 9 ? (
+                  <Result 
+                    index={planet[convertNameToId(value) + 1].id}  
+                    name={planet[convertNameToId(value) + 1].name}
+                    image={planet[convertNameToId(value) + 1].image}
+                    shortText={planet[convertNameToId(value) + 1].shortText}  
+                  />
+                ) : (
+                  <Result  
+                    index={planet[0].id}  
+                    name={planet[0].name}
+                    image={planet[0].image}
+                    shortText={planet[0].shortText}  
+                  />
+                )
+              )              
             }
           </View>
         </ScrollView>

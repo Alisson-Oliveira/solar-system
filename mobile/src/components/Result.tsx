@@ -1,33 +1,53 @@
 import React, { useState } from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
 import forwardIcon from '../icons/regular/Forward-2.png';
 import saveIcon from '../icons/regular/Save.png';
 import savedIcon from '../icons/solid/Saved.png';
 
-import sunImg from '../../assets/images/Sun.png'; 
-import mercuryImg from '../../assets/images/Mercury.png'; 
-import venusImg from '../../assets/images/Venus.png'; 
-import earthImg from '../../assets/images/Earth.png'; 
-import marsImg from '../../assets/images/Mars.png'; 
-import jupiterImg from '../../assets/images/Jupiter.png'; 
-import saturnImg from '../../assets/images/Saturn.png'; 
-import uranusImg from '../../assets/images/Uranus.png'; 
-import neptuneImg from '../../assets/images/Neptune.png'; 
-import plutoImg from '../../assets/images/Pluto.png'; 
+import sunImg from '../images/Sun.png'; 
+import mercuryImg from '../images/Mercury.png'; 
+import venusImg from '../images/Venus.png'; 
+import earthImg from '../images/Earth.png'; 
+import marsImg from '../images/Mars.png'; 
+import jupiterImg from '../images/Jupiter.png'; 
+import saturnImg from '../images/Saturn.png'; 
+import uranusImg from '../images/Uranus.png'; 
+import neptuneImg from '../images/Neptune.png'; 
+import plutoImg from '../images/Pluto.png'; 
+
+import { ADD_SAVE, GET_STORAGE, REMOVE_SAVE, SaveParams } from '../config/storage';
 
 interface SearchProps {
-  id: number,
+  index: number,
   name: string,
   image: string,
   shortText: string, 
 };
 
-export default function Result({ id, name, image, shortText }: SearchProps) {
-  const [saved, setSaved] = useState(false);
+export default function Result({ index, name, image, shortText }: SearchProps) {
+  const [id, setId] = useState<number>(-1);
+  const [state, setState] = useState(true);
   const { navigate } = useNavigation();
+
+  useFocusEffect(() => {
+    if (state) {
+      GET_STORAGE()
+        .then(response => {
+          if (response) {
+            response.map(planet => {
+              console.log(planet.id + " = " + index);
+              if (planet.id === index) {
+                setId(planet.id);
+              }; 
+            });
+          };
+        })
+      setState(false);
+    }
+  });
 
   function getImage(image: string) {
     switch (image) {
@@ -60,6 +80,36 @@ export default function Result({ id, name, image, shortText }: SearchProps) {
     return navigate('Details', { id });
   };
 
+  async function handleSavePlanet(id: number) {
+    try {
+      const data = {
+        id,
+      } as SaveParams;
+  
+      await ADD_SAVE(data);
+
+      setId(id);
+      setState(true);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  async function handleRemovePlanet(id: number) {
+    try {
+      const data = {
+        id,
+      } as SaveParams;
+  
+      await REMOVE_SAVE(data);
+
+      setId(-1);
+      setState(true);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <View style={styles.result}>
       <Image source={getImage(image)} style={styles.lengthImage} />
@@ -67,19 +117,19 @@ export default function Result({ id, name, image, shortText }: SearchProps) {
         <View style={styles.nameSaved}>
           <Text style={styles.nameText}>{name}</Text> 
           {
-            saved ? (
-              <RectButton onPress={() => setSaved(false)}>
+            id === index ? (
+              <RectButton onPress={() => handleRemovePlanet(index)}>
                 <Image source={savedIcon} style={styles.lengthSave} />
               </RectButton>
             ) : (
-              <RectButton onPress={() => setSaved(true)}>
+              <RectButton onPress={() => handleSavePlanet(index)}>
                 <Image source={saveIcon} style={styles.lengthSave} />
               </RectButton>
             ) 
-          }         
+          }
         </View>
         <Text style={styles.subTitle}>{shortText}</Text>
-        <RectButton onPress={() => handleToDetails(id)} style={styles.continueReading}>
+        <RectButton onPress={() => handleToDetails(index)} style={styles.continueReading}>
           <Text style={styles.continueReadingText}>Continuar lendo</Text>
           <Image source={forwardIcon} style={styles.lengthContinueReading} />
         </RectButton>

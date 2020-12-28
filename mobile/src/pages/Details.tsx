@@ -5,24 +5,24 @@ import { RectButton } from 'react-native-gesture-handler';
 import { useRoute } from '@react-navigation/native';
 import { Feather } from '@expo/vector-icons'; 
 
-import Header from '../../components/Header';
+import Header from '../components/Header';
 
-import starsImg from '../../../assets/images/Stars.png';
-import saveIcon from '../../icons/regular/Save-2.png';
-import shareIcon from '../../icons/regular/Share.png';
+import saveIcon from '../icons/regular/Save-2.png';
+import shareIcon from '../icons/regular/Share.png';
 
-import sunImg from '../../../assets/images/Sun.png'; 
-import mercuryImg from '../../../assets/images/Mercury.png'; 
-import venusImg from '../../../assets/images/Venus.png'; 
-import earthImg from '../../../assets/images/Earth.png'; 
-import marsImg from '../../../assets/images/Mars.png'; 
-import jupiterImg from '../../../assets/images/Jupiter.png'; 
-import saturnImg from '../../../assets/images/Saturn.png'; 
-import uranusImg from '../../../assets/images/Uranus.png'; 
-import neptuneImg from '../../../assets/images/Neptune.png'; 
-import plutoImg from '../../../assets/images/Pluto.png'; 
+import starsImg from '../images/Stars.png';
+import sunImg from '../images/Sun.png'; 
+import mercuryImg from '../images/Mercury.png'; 
+import venusImg from '../images/Venus.png'; 
+import earthImg from '../images/Earth.png'; 
+import marsImg from '../images/Mars.png'; 
+import jupiterImg from '../images/Jupiter.png'; 
+import saturnImg from '../images/Saturn.png'; 
+import uranusImg from '../images/Uranus.png'; 
+import neptuneImg from '../images/Neptune.png'; 
+import plutoImg from '../images/Pluto.png'; 
 
-import { dataset, PlanetParams } from '../../database/data';
+import { dataset, PlanetParams } from '../database/data';
 
 interface DetailsParams {
   id: number,
@@ -77,8 +77,9 @@ export default function Details() {
           <View style={styles.header}>
             <Header back={true} />
             <Image 
-              source={getImage(planet[id].image)} 
-              style={styles.imageBackground}
+              source={getImage(planet[id].image)}
+              resizeMode={ id === 6 ? 'contain' : 'cover' } 
+              style={[styles.imageBackground, { width: id === 6 ? 364 : 256 }]}
             />
           </View>
           <Image 

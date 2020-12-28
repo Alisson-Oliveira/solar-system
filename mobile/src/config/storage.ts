@@ -2,9 +2,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const AsyncStorageSolarSystem = '@solar-system:saves';
 
-interface SaveParams {
+export interface SaveParams {
   id: number,
-  saved: boolean,
 };
 
 export const GET_STORAGE = async () => {
@@ -55,14 +54,10 @@ export const ADD_SAVE = async (save: SaveParams) => {
     ];
  
     SET_STORAGE(data);
-
-    return true;
   } catch(error) {
     console.log(error);
 
     alert(`Não foi possível salvar o planeta`);
-
-    return false;
   }
 }
 
@@ -79,13 +74,9 @@ export const REMOVE_SAVE = async (save: SaveParams) => {
     const data = responseData.filter(response => response.id !== save.id);
 
     SET_STORAGE(data);
-
-    return true;
   } catch(error) {
     console.log(error);
     
     alert(`Não foi possível remover o planeta`);
-
-    return false;
   }
 }
