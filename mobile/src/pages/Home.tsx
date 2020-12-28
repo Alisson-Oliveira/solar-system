@@ -1,24 +1,32 @@
 import React, { useEffect, useState } from 'react';
-import { 
-  View, Text, StyleSheet, 
+import { View, Text, StyleSheet, 
   Dimensions, Image, ImageBackground, 
   TextInput, ScrollView } from 'react-native';
 import Header from '../components/Header';
 import Category from '../components/Category';
 import Planets from '../components/Planets';
 import searchIcon from '../icons/regular/Search.png';
-import starsImg from '../../assets/images/Stars.png';
+import starsImg from '../images/Stars.png';
 import { dataset, CategoriesParams } from '../database/data';
 import { RectButton } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
+import { GET_SETTINGS } from '../config/settings';
 
 export default function Home() {
   const [planets, setPlanets] = useState<string[]>([]);
   const [categories, setCategories] = useState<CategoriesParams[]>([]);
+  const [username, setUsername] = useState('');
   const [name, setName] = useState('');
   const navigation = useNavigation();
 
   useEffect(() => {
+    GET_SETTINGS()
+      .then(response => {
+        if (response) {
+          setUsername(response.username);
+        }
+      });
+
     if (dataset) {
       const names: string[] = []; 
 
@@ -42,7 +50,7 @@ export default function Home() {
       <ImageBackground resizeMode='cover' source={starsImg} style={styles.full}>     
         <ScrollView style={styles.full}>
           <View style={styles.content}>
-            <Header username='Alisson Oliveira' back={false} />
+            <Header username={username} back={false} />
             <RectButton style={styles.search} onPress={
                 () => handleToSearch(name) 
               }>

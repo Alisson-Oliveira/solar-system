@@ -15,7 +15,7 @@ export default function Header({ username, back }: HeaderProps) {
   const { goBack } = useNavigation();
 
   return (
-    <View style={styles.header}>
+    <View style={[styles.header, { marginTop: back ? 9.5 : 0 }]}>
       <View style={styles.container}>
         {
           !back ? (
