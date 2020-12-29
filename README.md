@@ -11,6 +11,12 @@ Quem tiver a fim de ajudar, pode ficar a vontade :)
 
 Apk disponível em **Releases**.
 
+### Lançamento
+- Informações sobre planetas
+- Galeria de ilustrações
+- Pesquisa
+- Salvos
+
 ### Plataformas
 - Android
 
