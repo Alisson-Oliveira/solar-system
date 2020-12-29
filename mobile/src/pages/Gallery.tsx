@@ -42,6 +42,25 @@ export default function Gallery() {
     'Plutão'
   ];
 
+  function systemMarginTop(index: number): number {
+    return index !== 0 ? 24 : 0;
+  };
+
+  function systemMarginLeft(index: number): number {
+    return index !== 6 ? 50 : 0;
+  };
+
+  function systemSize(index: number, type: string): number {
+    switch (type) {
+      case 'width':
+        return index === 6 ? 210 : 120;
+      case 'height':
+        return index === 6 ? 134 : 120;
+      default:
+        return -1;
+    }
+  };
+
   return (
     <View style={styles.gallery}>
       <ImageBackground 
@@ -55,19 +74,24 @@ export default function Gallery() {
           <View style={styles.container}>
             {
               images.map((planet, index) => (
-                <View style={{alignSelf: 'flex-start', alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row'}}>
+                <View key={index} style={styles.content}>
                   <Image 
-                    key={index} 
                     source={planet} 
                     style={[styles.image, { 
-                      marginTop: index !== 0 ? 24 : 0,
-                      marginLeft: index !== 6 ? 50 : 0, 
-                      width: index === 6 ? 210 : 120, 
-                      height: index === 6 ? 134 : 120,
+                      marginTop: systemMarginTop(index),
+                      marginLeft: systemMarginLeft(index), 
+                      width: systemSize(index, 'width'), 
+                      height: systemSize(index, 'height'),
                     }]} 
                     resizeMode={index === 6 ? 'contain' : 'cover'}
                   />
-                  <Text style={{fontSize: 26, fontWeight: 'bold', color:'#FFFFFF', marginLeft: index !== 6 ? 60 : 20}}>{names[index]}</Text>
+                  <Text style={[
+                    styles.name, { 
+                      marginLeft: index !== 6 ? 60 : 20 
+                    }
+                  ]}>
+                    {names[index]}
+                  </Text>
                 </View>
               ))
             }            
@@ -109,8 +133,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 
+  content: {
+    alignSelf: 'flex-start', 
+    alignItems: 'center', 
+    justifyContent: 'space-between', 
+    flexDirection: 'row',
+  },
+
   image: {
     width: 112,
     height: 112,
+  },
+
+  name: {
+    fontSize: 26, 
+    fontWeight: 'bold', 
+    color:'#FFFFFF',
   },
 });

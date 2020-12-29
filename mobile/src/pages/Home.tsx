@@ -152,5 +152,5 @@ const styles = StyleSheet.create({
 
   planets: {
     marginTop: 20,
-  }
+  },
 });

@@ -36,9 +36,8 @@ export default function Save() {
             {
               ids.length !== 0 ? (
                 ids.map((planet, index) => (
-                  <View style={{ marginTop: index !== 0 ? 24 : 0 }}>
-                    <Result 
-                      key={planet.id}
+                  <View key={planet.id} style={{ marginTop: index !== 0 ? 24 : 0 }}>
+                    <Result
                       index={planets[planet.id].id}
                       name={planets[planet.id].name}
                       image={planets[planet.id].image}

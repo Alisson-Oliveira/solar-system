@@ -20,7 +20,7 @@ export default function Username() {
     if (username !== '') {
       const settings = {
         username,
-        splash: false,
+        active: false,
       } as SettingsParams;
 
       await SET_SETTINGS(settings);

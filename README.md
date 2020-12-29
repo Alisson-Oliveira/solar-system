@@ -11,9 +11,6 @@ Quem tiver a fim de ajudar, pode ficar a vontade :)
 
 Apk disponível em **Releases**.
 
-### Atualizações Futuras
-- Adicionar Configurações (editar username)
-
 ### Plataformas
 - Android
 
@@ -23,7 +20,7 @@ Apk disponível em **Releases**.
 - React-native
 
 ### Versão Atual
-- 1.0.1
+- 1.0.2
 
 ### Licença
 - [MIT](/docs/LICENÇA)

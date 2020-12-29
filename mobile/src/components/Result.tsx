@@ -36,7 +36,6 @@ export default function Result({ index, name, image, shortText }: SearchProps) {
       .then(response => {
         if (response) {
           response.map(planet => {
-            console.log(planet.id + " = " + index);
             if (planet.id === index) {
               setId(planet.id);
             }; 
