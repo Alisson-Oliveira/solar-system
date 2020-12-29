@@ -20,7 +20,7 @@ interface SearchParams {
 
 export default function Search() {
   const [value, setValue] = useState('');
-  const [planet, setPlanet] = useState<PlanetParams[]>(dataset.planets);
+  const planet: PlanetParams[] = dataset.planets;
   const focused = useIsFocused();
   const route = useRoute();
   const params = route.params as SearchParams;
@@ -128,7 +128,6 @@ const styles = StyleSheet.create({
     color: '#FFFFFF', 
     fontSize: 32, 
     fontWeight: 'bold', 
-    marginTop: 16, 
     marginBottom: 6,
   },
 

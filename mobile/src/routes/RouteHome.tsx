@@ -14,8 +14,8 @@ export default function RouteHome() {
       screenOptions={{ headerShown: false }}
     >
       <Stack.Screen name="Home" component={Home} />
-      <Stack.Screen name="Search" component={Search} />
-      <Stack.Screen name="Details" component={Details} />
+      {/* <Stack.Screen name="Search" component={Search} />
+      <Stack.Screen name="Details" component={Details} /> */}
     </Stack.Navigator>
   );
 }

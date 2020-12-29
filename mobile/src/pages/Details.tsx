@@ -2,14 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Text, 
   ScrollView, Dimensions, Image } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
-import { useRoute } from '@react-navigation/native';
+import { useFocusEffect, useRoute } from '@react-navigation/native';
 import { Feather } from '@expo/vector-icons'; 
-
 import Header from '../components/Header';
-
 import saveIcon from '../icons/regular/Save-2.png';
+import savedIcon from '../icons/solid/Saved.png';
 import shareIcon from '../icons/regular/Share.png';
-
 import starsImg from '../images/Stars.png';
 import sunImg from '../images/Sun.png'; 
 import mercuryImg from '../images/Mercury.png'; 
@@ -21,8 +19,8 @@ import saturnImg from '../images/Saturn.png';
 import uranusImg from '../images/Uranus.png'; 
 import neptuneImg from '../images/Neptune.png'; 
 import plutoImg from '../images/Pluto.png'; 
-
 import { dataset, PlanetParams } from '../database/data';
+import { GET_STORAGE } from '../config/storage';
 
 interface DetailsParams {
   id: number,
@@ -31,17 +29,29 @@ interface DetailsParams {
 export default function Details() {
   const [introduction, setIntrodution] = useState(false);
   const [features, setFeatures] = useState(false);
-  const [planet, setPlanet] = useState<PlanetParams[]>(dataset.planets);
+  const [saved, setSaved] = useState(false);
+  const planet: PlanetParams[] = dataset.planets;
   const [id, setId] = useState<number>(0);
 
   const route = useRoute();
   const params = route.params as DetailsParams;
 
-  useEffect(() => {
+  useFocusEffect(() => {
     if (params) {
+      GET_STORAGE()
+        .then(response => {
+          if (response) {
+            response.map(planet => {
+              if (planet.id === params.id) {
+                setSaved(true);
+              }
+            });
+          };
+        })
+
       setId(params.id);
     };
-  }, []);
+  });
 
   function getImage(image: string) {
     switch (image) {
@@ -92,7 +102,13 @@ export default function Details() {
           <View style={styles.containerTitle}>
             <Text style={styles.title}>{planet[id].name}</Text>
             <View style={styles.optionsRow}>
-              <Image source={saveIcon} style={styles.iconSave} />
+              {
+                saved ? (
+                  <Image source={savedIcon} style={styles.lengthSave} />
+                ) : (
+                  <Image source={saveIcon} style={styles.lengthSave} />
+                ) 
+              }
               <Image source={shareIcon} style={styles.iconShare} />
             </View>
           </View>
@@ -195,6 +211,12 @@ const styles = StyleSheet.create({
 
   optionsRow: {
     flexDirection: 'row',
+  },
+
+  lengthSave: {
+    width: 20, 
+    height: 26,
+    margin: 6,
   },
 
   iconSave: {

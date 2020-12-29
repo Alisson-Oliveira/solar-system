@@ -29,24 +29,20 @@ interface SearchProps {
 
 export default function Result({ index, name, image, shortText }: SearchProps) {
   const [id, setId] = useState<number>(-1);
-  const [state, setState] = useState(true);
   const { navigate } = useNavigation();
 
   useFocusEffect(() => {
-    if (state) {
-      GET_STORAGE()
-        .then(response => {
-          if (response) {
-            response.map(planet => {
-              console.log(planet.id + " = " + index);
-              if (planet.id === index) {
-                setId(planet.id);
-              }; 
-            });
-          };
-        })
-      setState(false);
-    }
+    GET_STORAGE()
+      .then(response => {
+        if (response) {
+          response.map(planet => {
+            console.log(planet.id + " = " + index);
+            if (planet.id === index) {
+              setId(planet.id);
+            }; 
+          });
+        };
+      })
   });
 
   function getImage(image: string) {
@@ -89,7 +85,6 @@ export default function Result({ index, name, image, shortText }: SearchProps) {
       await ADD_SAVE(data);
 
       setId(id);
-      setState(true);
     } catch (error) {
       console.log(error);
     }
@@ -104,7 +99,6 @@ export default function Result({ index, name, image, shortText }: SearchProps) {
       await REMOVE_SAVE(data);
 
       setId(-1);
-      setState(true);
     } catch (error) {
       console.log(error);
     }

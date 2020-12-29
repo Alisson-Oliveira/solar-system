@@ -13,8 +13,6 @@ Apk disponível em **Releases**.
 
 ### Atualizações Futuras
 - Adicionar Configurações (editar username)
-- Adicionar Favoritos (salvos)
-- Adicionar galeria
 
 ### Plataformas
 - Android
